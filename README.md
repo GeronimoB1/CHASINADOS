@@ -47,3 +47,48 @@ La landing está hecha en **React (Vite)** y envía los datos del formulario a u
 - **Utils**: helpers puros (UTM, sanitizar teléfono).
 
 Esto evita “fetch en el componente” y mantiene responsabilidades claras.
+
+
+
+---
+
+## Flujo funcional
+
+1. El usuario llega a la landing (idealmente con UTMs desde redes/ads/QR).
+2. Completa el formulario (B2B/B2C).
+3. `LeadForm` llama al `submitLead(raw)` del controller.
+4. Controller:
+   - normaliza y valida (Model),
+   - agrega UTMs + metadata (`page_url`, `user_agent`, `timestamp`),
+   - envía el payload a n8n (Service).
+5. UI muestra estado OK/ERROR y ofrece botón WhatsApp con mensaje prearmado.
+
+---
+
+## Configuración (valores a completar)
+
+### En el proyecto (front)
+Reemplazar placeholders:
+
+- Webhook n8n:
+  - `controllers/leadController.js` → `N8N_WEBHOOK_URL`
+- WhatsApp:
+  - `views/components/Header.jsx` y `views/components/LeadForm.jsx` → `WHATSAPP_NUMBER`
+- Catálogo:
+  - `views/components/Header.jsx` → `CATALOG_URL`
+
+> Recomendación: mover estos valores a variables de entorno `.env` y usar `import.meta.env`.
+
+Ejemplo `.env`:
+
+VITE_N8N_WEBHOOK_URL=https://tudominio.com/webhook/lead-intake
+VITE_WHATSAPP_NUMBER=5492910000000
+VITE_CATALOG_URL=https://...
+
+---
+
+## Cómo ejecutar el proyecto (desarrollo)
+
+```bash
+npm install
+npm run dev
