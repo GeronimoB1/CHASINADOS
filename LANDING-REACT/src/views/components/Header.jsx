@@ -2,18 +2,19 @@ import { buildWhatsAppUrl } from "../../controllers/leadController";
 
 const WHATSAPP_NUMBER = "5492910000000";
 const CATALOG_URL = "/catalogo.pdf";
+const LOGO_URL = "bg/LOGO.jpg";
 
 export default function Header() {
-  const msg = "Hola! Quiero hacer un pedido/consulta. ¿Me pasás lista de precios y mínimos?";
+  const msg = "Hola! Quiero la lista de precios y condiciones de entrega para comercio.";
   const wa = buildWhatsAppUrl(WHATSAPP_NUMBER, msg);
 
   return (
     <header className="top">
       <div className="brand">
-        <div className="logo">T</div>
-        <div>
-          <div className="title">Tourn Chacinados</div>
-          <div className="subtitle muted">Pedidos y consultas • WhatsApp</div>
+        <img className="brandLogo" src={LOGO_URL} alt="Tourn Chacinados" />
+        <div className="brandText">
+          <div className="title">Chacinados Tourn</div>
+          <div className="subtitle muted">Sabores de La Pampa • Ventas a comercios</div>
         </div>
       </div>
 
