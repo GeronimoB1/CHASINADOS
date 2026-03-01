@@ -1,9 +1,9 @@
-import { normalizeLead, validateLead, buildWhatsAppMessage } from "../models/leadModel";
+import { normalizeLead, validateLead, buildWhatsAppMessage, getPriorityByInterest } from "../models/leadModel";
 import { sendLeadToWebhook } from "../services/leadService";
 import { getUTMs } from "../utils/utm";
 import { sanitizePhone } from "../utils/phone";
 
-const N8N_WEBHOOK_URL = "https://TU-DOMINIO-O-IP/webhook/lead-intake";
+const N8N_WEBHOOK_URL = "http://localhost:5678/webhook-test/chasinados-leads";
 
 export function buildWhatsAppUrl(number, text) {
   return `https://wa.me/${2915109303}?text=${encodeURIComponent(text)}`;
@@ -24,10 +24,11 @@ export async function submitLead(rawForm) {
   // 2) Armar payload con UTMs + metadata
   const payload = {
     ...lead,
+    priority: getPriorityByInterest(lead.interest),
     ...getUTMs(),
     page_url: window.location.href,
     user_agent: navigator.userAgent,
-    timestamp_iso: new Date().toISOString(),
+    fechaHora: new Date().toLocaleString('es-AR'),
   };
 
   // 3) Service: enviar a n8n

@@ -13,7 +13,8 @@ export default function LeadForm() {
     e.preventDefault();
     setStatus("Enviando...");
 
-    const formData = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
     const raw = Object.fromEntries(formData.entries());
 
     const result = await submitLead(raw);
@@ -21,7 +22,7 @@ export default function LeadForm() {
     if (result.ok) {
       setStatus("Listo. Registramos tu consulta. Si querés, confirmalo por WhatsApp.");
       setWaUrl(buildWhatsAppUrl(WHATSAPP_NUMBER, result.whatsAppMessage));
-      e.currentTarget.reset();
+      form.reset();
     } else {
       setStatus("No se pudo enviar. Escribinos por WhatsApp y lo resolvemos al toque.");
       setWaUrl(buildWhatsAppUrl(WHATSAPP_NUMBER, result.whatsAppMessage));
@@ -38,6 +39,13 @@ export default function LeadForm() {
           <label>Nombre</label>
           <input name="name" required placeholder="Tu nombre" />
         </div>
+        <div>
+          <label>Email</label>
+          <input name="email" type="email" required placeholder="tu@email.com" />
+        </div>
+      </div>
+
+      <div className="row2">
         <div>
           <label>WhatsApp</label>
           <input name="phone" required placeholder="Ej: 291xxxxxxx" />
