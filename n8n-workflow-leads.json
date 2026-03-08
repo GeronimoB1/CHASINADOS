@@ -1,0 +1,152 @@
+{
+  "name": "CHASINADOS - Flujo de Leads (Email + Sheets + WhatsApp)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "chasinados-leads",
+        "responseMode": "onReceived",
+        "responseData": "{\n  \"success\": true,\n  \"message\": \"Consulta recibida. Te responderemos en breve\"\n}"
+      },
+      "id": "webhook_trigger",
+      "name": "Webhook - Recibir Formulario",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 250]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Procesar datos del formulario\nconst datos = $input.first().json;\n\nreturn {\n  nombre: datos.name,\n  email: datos.email,\n  whatsapp: datos.phone.replace(/[^0-9]/g, ''),\n  localidad: datos.city,\n  motivo: datos.interest || 'Sin especificar',\n  prioridad: datos.priority || 'Sin especificar',\n  mensaje: datos.message || 'Sin mensaje',\n  timestamp: new Date().toISOString(),\n  fecha: new Date().toLocaleDateString('es-AR')\n};"
+      },
+      "id": "procesar_datos",
+      "name": "Procesar Datos",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [500, 250]
+    },
+    {
+      "parameters": {
+        "fromEmail": "tu-email@tudominio.com",
+        "toEmail": "={{ $env.EMPRESA_EMAIL }}",
+        "subject": "📋 Nueva Consulta - {{ $json.motivo }} [{{ $json.prioridad }}]",
+        "contentType": "text/html",
+        "htmlMessage": "<html>\n<body style=\"font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;\">\n  <div style=\"background-color: white; padding: 20px; border-radius: 10px; max-width: 500px; margin: auto;\">\n    <h2 style=\"color: #333;\">📋 Nueva Consulta Recibida</h2>\n    <hr>\n    <p><strong>Nombre:</strong> {{ $json.nombre }}</p>\n    <p><strong>Email:</strong> {{ $json.email }}</p>\n    <p><strong>WhatsApp:</strong> {{ $json.whatsapp }}</p>\n    <p><strong>Localidad:</strong> {{ $json.localidad }}</p>\n    <p><strong>Motivo:</strong> <span style=\"background-color: #fff3cd; padding: 5px 10px; border-radius: 5px;\">{{ $json.motivo }}</span></p>\n    <p><strong>Prioridad:</strong> <span style=\"background-color: #e8f4f8; padding: 5px 10px; border-radius: 5px; color: #0066cc;\">{{ $json.prioridad }}</span></p>\n    <p><strong>Mensaje:</strong></p>\n    <p style=\"background-color: #f9f9f9; padding: 10px; border-left: 4px solid #007bff;\">{{ $json.mensaje }}</p>\n    <p><strong>Fecha/Hora:</strong> {{ $json.fecha }} {{ $json.timestamp }}</p>\n    <hr>\n    <p style=\"color: #666; font-size: 12px;\">⏰ Lead automático generado por CHASINADOS</p>\n  </div>\n</body>\n</html>"
+      },
+      "id": "enviar_email_empresa",
+      "name": "Enviar Email a Empresa",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 1,
+      "position": [750, 100]
+    },
+    {
+      "parameters": {
+        "spreadsheetId": "{{ $env.GOOGLE_SHEETS_ID }}",
+        "range": "{{ $json.motivo }}",
+        "options": {}
+      },
+      "id": "google_sheets_guardar",
+      "name": "Guardar en Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "operation": "append",
+      "position": [750, 250]
+    },
+    {
+      "parameters": {
+        "phoneNumber": "+54{{ $json.whatsapp }}",
+        "message": "¡Hola {{ $json.nombre }}! 👋\n\nRecibimos tu consulta sobre: *{{ $json.motivo }}*\n\nNos comunicaremos contigo en breve. Si tienes alguna otra consulta, aquí estamos.\n\n🔗 Descarga más info: [enlace]\n\nSaludos,\nCHASINADOS"
+      },
+      "id": "enviar_whatsapp",
+      "name": "Enviar WhatsApp Automático",
+      "type": "n8n-nodes-base.twilio",
+      "typeVersion": 1,
+      "operation": "sendWhatsappMessage",
+      "position": [750, 400]
+    },
+    {
+      "parameters": {
+        "message": "✅ Flujo completado:\n- Email enviado a empresa\n- Datos guardados en Sheets\n- WhatsApp de confirmación al cliente"
+      },
+      "id": "log_exito",
+      "name": "Log - Éxito",
+      "type": "n8n-nodes-base.itemLists",
+      "typeVersion": 3,
+      "position": [1000, 250]
+    }
+  ],
+  "connections": {
+    "webhook_trigger": {
+      "main": [
+        [
+          {
+            "node": "procesar_datos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "procesar_datos": {
+      "main": [
+        [
+          {
+            "node": "enviar_email_empresa",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "google_sheets_guardar",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "enviar_whatsapp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "enviar_email_empresa": {
+      "main": [
+        [
+          {
+            "node": "log_exito",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "google_sheets_guardar": {
+      "main": [
+        [
+          {
+            "node": "log_exito",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "enviar_whatsapp": {
+      "main": [
+        [
+          {
+            "node": "log_exito",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "variables": {
+      "GOOGLE_SHEETS_ID": "{{ env.GOOGLE_SHEETS_ID }}",
+      "EMPRESA_EMAIL": "{{ env.EMPRESA_EMAIL }}",
+      "TWILIO_ACCOUNT_SID": "{{ env.TWILIO_ACCOUNT_SID }}",
+      "TWILIO_AUTH_TOKEN": "{{ env.TWILIO_AUTH_TOKEN }}"
+    }
+  }
+}

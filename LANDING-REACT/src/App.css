@@ -1,0 +1,689 @@
+/* ===========================
+   CHACINADOS TOURN — Boutique
+   Design System
+   =========================== */
+
+:root {
+  /* Negro mate profundo */
+  --bg-black:    #0d0d0b;
+  --bg-dark:     #141410;
+  --bg-panel:    #1a1a16;
+  /* Lino crudo para sección formulario */
+  --bg-lino:     #ede4d3;
+  --bg-lino-dark:#d9cdb9;
+
+  /* Dorado artesanal */
+  --gold:        #c9a04a;
+  --gold-light:  #e0bc72;
+  --gold-subtle: rgba(201, 160, 74, 0.25);
+
+  /* Tipografía */
+  --text-cream:  #f0e8d6;
+  --text-muted:  #8a7f72;
+  --text-dark:   #2a1f14;
+  --text-dark-muted: #6b5c4c;
+
+  /* Bordes */
+  --border-gold:   rgba(201, 160, 74, 0.35);
+  --border-light:  rgba(255, 255, 255, 0.07);
+  --border-dark:   rgba(42, 31, 20, 0.3);
+
+  /* Tipografías */
+  --font-serif:  'Cormorant Garamond', Georgia, serif;
+  --font-sans:   'Inter', system-ui, sans-serif;
+}
+
+/* ===========================
+   RESET / BASE
+   =========================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-black);
+  color: var(--text-cream);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+/* ===========================
+   NAVBAR
+   =========================== */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 68px;
+  background: rgba(13, 13, 11, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-gold);
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.navbar-logo {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--border-gold);
+}
+
+.navbar-name {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-cream);
+  letter-spacing: 0.04em;
+}
+
+.navbar-name span {
+  color: var(--gold);
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ===========================
+   BOTONES GLOBALES
+   =========================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 20px;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.22s ease;
+  border-radius: 4px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+/* Dorado con borde */
+.btn-gold {
+  background: transparent;
+  color: var(--gold);
+  border: 1px solid var(--gold);
+}
+.btn-gold:hover {
+  background: var(--gold-subtle);
+  color: var(--gold-light);
+  border-color: var(--gold-light);
+}
+
+/* Negro mate con borde dorado — WhatsApp */
+.btn-wa {
+  background: var(--bg-black);
+  color: var(--gold);
+  border: 1px solid var(--gold);
+}
+.btn-wa:hover {
+  background: var(--gold-subtle);
+  color: var(--gold-light);
+}
+
+/* Relleno crema (sobre lino) */
+.btn-dark {
+  background: var(--bg-dark);
+  color: var(--text-cream);
+  border: 1px solid var(--border-gold);
+}
+.btn-dark:hover {
+  background: var(--bg-panel);
+  border-color: var(--gold);
+  color: var(--gold-light);
+}
+
+/* Enviar sobre lino */
+.btn-submit {
+  background: var(--text-dark);
+  color: var(--bg-lino);
+  border: 1px solid var(--text-dark);
+  letter-spacing: 0.08em;
+}
+.btn-submit:hover {
+  background: #3d2e20;
+}
+
+button, a { cursor: pointer; }
+
+/* ===========================
+   SPLIT LAYOUT (Pantalla 1)
+   =========================== */
+.split-screen {
+  display: grid;
+  grid-template-columns: 60fr 40fr;
+  min-height: 100vh;
+  padding-top: 68px; /* navbar height */
+}
+
+/* --- HERO SIDE (left) --- */
+.hero-side {
+  position: relative;
+  overflow: hidden;
+  min-height: calc(100vh - 68px);
+}
+
+.hero-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    160deg,
+    rgba(13, 13, 11, 0.72) 0%,
+    rgba(13, 13, 11, 0.38) 50%,
+    rgba(13, 13, 11, 0.65) 100%
+  );
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 56px 52px;
+}
+
+.hero-eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+}
+
+.hero-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.6rem, 4.5vw, 4rem);
+  font-weight: 600;
+  color: var(--text-cream);
+  line-height: 1.05;
+  margin-bottom: 20px;
+}
+
+.hero-title em {
+  font-style: italic;
+  color: var(--gold-light);
+}
+
+.hero-desc {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  color: rgba(240, 232, 214, 0.75);
+  line-height: 1.65;
+  max-width: 420px;
+  margin-bottom: 28px;
+}
+
+.hero-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+
+.hero-chip {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border: 1px solid var(--border-gold);
+  color: rgba(240, 232, 214, 0.65);
+  border-radius: 2px;
+}
+
+/* --- FORM SIDE (right) --- */
+.form-side {
+  background-color: var(--bg-lino);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 52px 44px;
+  overflow-y: auto;
+}
+
+.form-side-header {
+  margin-bottom: 32px;
+}
+
+.form-side-eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-dark-muted);
+  margin-bottom: 10px;
+}
+
+.form-side-title {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  line-height: 1.1;
+}
+
+.form-side-sub {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--text-dark-muted);
+  margin-top: 8px;
+}
+
+/* ===========================
+   FORM FIELDS — Lino minimal
+   =========================== */
+.form-group {
+  margin-bottom: 22px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-label {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dark-muted);
+  margin-bottom: 6px;
+}
+
+.form-input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(42, 31, 20, 0.35);
+  border-radius: 0;
+  padding: 8px 2px;
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  outline: none;
+  transition: border-color 0.2s ease;
+  -webkit-appearance: none;
+}
+
+.form-input::placeholder {
+  color: rgba(42, 31, 20, 0.3);
+}
+
+.form-input:focus {
+  border-bottom-color: var(--text-dark);
+}
+
+select.form-input {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b5c4c' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 4px center;
+  background-size: 16px;
+  padding-right: 28px;
+  cursor: pointer;
+}
+
+select.form-input option {
+  background-color: var(--bg-lino);
+  color: var(--text-dark);
+}
+
+textarea.form-input {
+  resize: none;
+  border: 1px solid rgba(42, 31, 20, 0.25);
+  border-radius: 3px;
+  padding: 10px 8px;
+}
+
+textarea.form-input:focus {
+  border-color: rgba(42, 31, 20, 0.55);
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.form-status {
+  margin-top: 14px;
+  font-size: 0.85rem;
+  color: var(--text-dark);
+  line-height: 1.5;
+}
+
+.form-footnote {
+  margin-top: 20px;
+  font-size: 0.72rem;
+  color: var(--text-dark-muted);
+  border-top: 1px solid var(--border-dark);
+  padding-top: 14px;
+  line-height: 1.5;
+}
+
+/* ===========================
+   BAND — Pantalla 2
+   (Quiénes somos + fotos)
+   =========================== */
+.band {
+  background: var(--bg-dark);
+  border-top: 1px solid var(--border-gold);
+}
+
+.band-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 72px 52px;
+}
+
+/* Quiénes somos row */
+.quienes-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 48px;
+  align-items: center;
+  margin-bottom: 72px;
+}
+
+.quienes-eyebrow {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+}
+
+.quienes-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  color: var(--text-cream);
+  margin-bottom: 20px;
+}
+
+.quienes-title em {
+  font-style: italic;
+  color: var(--gold-light);
+}
+
+.quienes-text {
+  font-family: var(--font-sans);
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+  max-width: 540px;
+}
+
+.quienes-list {
+  list-style: none;
+  padding: 0;
+  margin: 18px 0 0;
+}
+
+.quienes-list li {
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  padding: 7px 0 7px 18px;
+  border-bottom: 1px solid var(--border-light);
+  position: relative;
+}
+
+.quienes-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+}
+
+.quienes-image-wrap {
+  flex-shrink: 0;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid var(--border-gold);
+  box-shadow: 0 0 60px rgba(201, 160, 74, 0.1);
+}
+
+.quienes-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* ===========================
+   PRODUCTS STRIP
+   =========================== */
+.products-heading {
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.products-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.product-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  aspect-ratio: 3/4;
+  cursor: pointer;
+  border: 1px solid var(--border-light);
+}
+
+.product-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.product-card:hover img {
+  transform: scale(1.07);
+}
+
+.product-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(13, 13, 11, 0.9) 0%, transparent 55%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 18px 16px;
+  transition: opacity 0.3s ease;
+}
+
+.product-card-name {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-cream);
+  line-height: 1.2;
+}
+
+.product-card-tag {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-top: 4px;
+}
+
+/* ===========================
+   FOOTER
+   =========================== */
+.footer {
+  background: var(--bg-black);
+  border-top: 1px solid var(--border-gold);
+  padding: 22px 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+
+.footer-brand {
+  font-family: var(--font-serif);
+  font-size: 0.9rem;
+  color: var(--gold);
+}
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+@media (max-width: 1024px) {
+  .split-screen {
+    grid-template-columns: 55fr 45fr;
+  }
+  .products-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .quienes-image-wrap {
+    width: 160px;
+    height: 160px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 20px;
+  }
+  .navbar-actions .btn-gold {
+    display: none;
+  }
+
+  .split-screen {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+
+  .hero-side {
+    min-height: 65vw;
+    max-height: 420px;
+  }
+
+  .hero-content {
+    padding: 32px 24px;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .form-side {
+    padding: 36px 24px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .band-inner {
+    padding: 48px 24px;
+  }
+
+  .quienes-row {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .quienes-image-wrap {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+  }
+
+  .products-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer {
+    padding: 18px 24px;
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .products-strip {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+}

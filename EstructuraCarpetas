@@ -1,0 +1,21 @@
+## Estructura de carpetas
+
+src/
+App.jsx # Entry UI principal (renderiza LandingView)
+controllers/
+leadController.js # Orquesta el envío: valida, arma payload, llama servicio
+models/
+leadModel.js # Normaliza, valida y construye mensaje WhatsApp
+services/
+leadService.js # Lógica de red: POST al webhook
+utils/
+utm.js # Lee UTMs de la URL
+phone.js # Sanitiza teléfono (solo números)
+views/
+LandingView.jsx # Página principal (layout + secciones)
+components/
+Header.jsx # Header + CTA catálogo/WhatsApp
+Combos.jsx # Sección combos (ejemplo)
+LeadForm.jsx # Form + status + acción WhatsApp
+styles/
+app.css # Estilos del prototipo
